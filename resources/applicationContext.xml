@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+    <!--прописываем, где находится properties file-->
+    <context:property-placeholder location="classpath:myApp.properties"/>
+
+    <bean id="myPet"
+          class="com.pukhaev.spring.spring_introduction.Dog"> <!-- Можном менять Dog на Cat-->
+    </bean>
+    <bean id="myPerson"
+          class="com.pukhaev.spring.spring_introduction.Person">
+        <!-- здесь мы передаем аргумент для конструктора. используется, если зависимости внедряются через конструктор -->
+        <!--        <constructor-arg ref="myPet"/> -->
+
+        <!-- тут зависимость внедряется через setter (setPet) -->
+        <property name="pet" ref="myPet"/>
+
+        <!--        вводим данные в строки и другие значения-->
+        <!--       Это Хард-Код вариант. Обычно используют properties file-->
+        <!--        <property name="surname" value="Pukheev"/>-->
+        <!--        <property name="age" value="26"/>-->
+
+        <!--        Когда используем proterties file-->
+        <property name="surname" value="${person.surname}"/>
+        <property name="age" value="${person.age}"/>
+    </bean>
+
+</beans>
