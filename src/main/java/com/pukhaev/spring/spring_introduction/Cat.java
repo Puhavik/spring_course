@@ -14,5 +14,3 @@ public class Cat implements Pet {
         System.out.println("Meow-Meow ");
     }
 }
-
-// Test
