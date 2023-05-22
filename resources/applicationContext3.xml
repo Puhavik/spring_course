@@ -10,5 +10,7 @@
 
     <!--    Будет происходить сканирование на наличие аннотации @Component -->
     <context:component-scan base-package="com.pukhaev.spring.spring_introduction"/>
+    <!--    Если используем аннотацию Value и берем данные из file.properties-->
+    <!--    <context:property-placeholder location="classpath:myApp.properties"/>-->
 
 </beans>
