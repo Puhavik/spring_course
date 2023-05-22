@@ -5,24 +5,30 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-@Component("personBean")
+// @Component("personBean") // нужен для способ 1, про создании spting containter через java code
 public class Person {
     // Использование аннотации Autowired возможно в поле. Работает через рефлексию Java
 //    @Autowired
 //    @Qualifier("catBean") // Если есть несколько бинов с аннотацией Autwired, то у одного нужно прописывать Qualifier (делает его дефолтным), чтобы не было ошибок
     private Pet pet;
     //    @Value("Pukhaev") // Хардкод вариант
-//    @Value("${person.surname}")
+    @Value("${person.surname}")
     private String surname;
     //    @Value("22") // Хардкод вариант
-//    @Value("${person.age}")
+    @Value("${person.age}")
     private int age;
 
     // внедрение зависимости с помощью конструктора
     // @Autowired -- внедрение зависимости с помощью аннотации. Со spring 4.3 если в классе 1 конструктор, то можно не прописывать Autowired
     // @Qualifier в конструктое пишется иначе!
-    @Autowired
-    public Person(@Qualifier("dog") Pet pet) {
+//    @Autowired
+//    public Person(@Qualifier("catBean") Pet pet) {
+//        System.out.println("Person bean is created");
+//        this.pet = pet;
+//    }
+
+
+    public Person(Pet pet) {
         System.out.println("Person bean is created");
         this.pet = pet;
     }
