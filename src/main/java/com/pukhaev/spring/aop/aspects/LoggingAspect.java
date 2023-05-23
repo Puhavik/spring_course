@@ -12,7 +12,9 @@ public class LoggingAspect {
     // показывает когда должен выполниться сквозной код. Если не указано из какого класса метод, то метод будет вызываться для всех классов
     // com.pukhaev.spring.aop.UniLibrary. -- таким образом логгирование будет происходить для выбранного класса
     // execution(public void get*() -- логирование будет по всем методам с get во всех классах
-    @Before("execution(public void get*())")
+    // когда стоит * это соответствует "любой"
+    // когда в параметрах метода стоит *, то это любой ОДИН параметр, если нужно несколько любых параметров и/или без параметров ставим ".." (две точки)
+    @Before("execution(public void getBook(com.pukhaev.spring.aop.Book))")
     public void beforeGetBookAdvice() {
         System.out.println("beforeGetBookAdvice: Попытка получить книгу");
     }
