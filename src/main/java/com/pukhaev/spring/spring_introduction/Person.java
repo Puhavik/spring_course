@@ -1,9 +1,6 @@
 package com.pukhaev.spring.spring_introduction;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 // @Component("personBean") // нужен для способ 1, про создании spting containter через java code
 public class Person {
