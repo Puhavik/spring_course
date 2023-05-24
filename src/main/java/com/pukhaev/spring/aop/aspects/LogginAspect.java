@@ -2,26 +2,27 @@ package com.pukhaev.spring.aop.aspects;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
 @Aspect  // Аспект класс отвечающий за сквозную функциональность
-public class LoggingAndSecurityAspect {
-
-    @Pointcut("execution(* com.pukhaev.spring.aop.UniLibrary.*(..))")
-    private void allMethodsFromUniLibrary(){}
-
-    @Pointcut("execution(public void com.pukhaev.spring.aop.UniLibrary.returnMagazine())")
-    private void returnMagazineFromUniLibrary(){}
-
-    @Pointcut("allMethodsFromUniLibrary() && !returnMagazineFromUniLibrary()")
-    private void allMethodsExceptReturnFromUniLibrary(){}
-
-    @Before("allMethodsExceptReturnFromUniLibrary()")
-    public void beforeAllMethodsExceptReturnAdvice() {
-        System.out.println("beforeAllMethodsExceptReturnAdvice: writing Log #10");
-    }
+@Order(1)
+public class LogginAspect {
+//
+//    @Pointcut("execution(* com.pukhaev.spring.aop.UniLibrary.*(..))")
+//    private void allMethodsFromUniLibrary(){}
+//
+//    @Pointcut("execution(public void com.pukhaev.spring.aop.UniLibrary.returnMagazine())")
+//    private void returnMagazineFromUniLibrary(){}
+//
+//    @Pointcut("allMethodsFromUniLibrary() && !returnMagazineFromUniLibrary()")
+//    private void allMethodsExceptReturnFromUniLibrary(){}
+//
+//    @Before("allMethodsExceptReturnFromUniLibrary()")
+//    public void beforeAllMethodsExceptReturnAdvice() {
+//        System.out.println("beforeAllMethodsExceptReturnAdvice: writing Log #10");
+//    }
 
 //    @Pointcut("execution(* com.pukhaev.spring.aop.UniLibrary.get* ())")
 //    private void allGetMethodsFromUniLibrary(){}
@@ -50,7 +51,8 @@ public class LoggingAndSecurityAspect {
 
     // Объявление Pointcut
 //    @Pointcut("execution(* get*())")
-//    private void allGetMethods(){}
+//    private void allGetMethods() {
+//    }
 
     // Pointcut -- ("execution(...)") показывает где и когда должен быть применен Advice
     // показывает когда должен выполниться сквозной код. Если не указано из какого класса метод, то метод будет вызываться для всех классов
@@ -58,13 +60,13 @@ public class LoggingAndSecurityAspect {
     // execution(public void get*() -- логирование будет по всем методам с get во всех классах
     // когда стоит * это соответствует "любой"
     // когда в параметрах метода стоит *, то это любой ОДИН параметр, если нужно несколько любых параметров и/или без параметров ставим ".." (две точки)
+    @Before("com.pukhaev.spring.aop.aspects.MyPointcuts.allGetMethods()")
+    public void beforeGetLoggingAdvice() {
+        System.out.println("beforeGetLoggingAdvice: Логгирование опытки получить книгу / журнал");
+    }
+
 //    @Before("allGetMethods()")
-//    public void beforeGetLoggingAdvice() {
-//        System.out.println("beforeGetLoggingAdvice: Попытка получить книгу / журнал");
-//    }
-//
-//    @Before("allGetMethods()")
-//    public void beforeGetSecurityAdvice(){
+//    public void beforeGetSecurityAdvice() {
 //        System.out.println("beforeGetSecurityAdvice: проверка прав на получение книги / журнала");
 //    }
 
