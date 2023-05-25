@@ -1,14 +1,47 @@
 package com.pukhaev.spring.aop.aspects;
 
+import com.pukhaev.spring.aop.Book;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
 @Aspect  // Аспект класс отвечающий за сквозную функциональность
 @Order(1)
-public class LogginAspect {
+public class LogginAspect { 
+    // Pointcut -- ("execution(...)") показывает где и когда должен быть применен Advice
+    // показывает когда должен выполниться сквозной код. Если не указано из какого класса метод, то метод будет вызываться для всех классов
+    // com.pukhaev.spring.aop.UniLibrary. -- таким образом логгирование будет происходить для выбранного класса
+    // execution(public void get*() -- логирование будет по всем методам с get во всех классах
+    // когда стоит * это соответствует "любой"
+    // когда в параметрах метода стоит *, то это любой ОДИН параметр, если нужно несколько любых параметров и/или без параметров ставим ".." (две точки)
+    @Before("com.pukhaev.spring.aop.aspects.MyPointcuts.allAddMethods()")
+    public void beforeAddLoggingAdvice(JoinPoint joinPoint) {
+        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+        System.out.println("methodSignature = " + methodSignature);
+        System.out.println("methodSignature.getMethod = " + methodSignature.getMethod());
+        System.out.println("methodSignature.getReturnType = " + methodSignature.getReturnType());
+        System.out.println("methodSignature.getName = " + methodSignature.getName());
+
+        if (methodSignature.getName().equals("addBook")) {
+            Object[] arguments = joinPoint.getArgs();
+            for (Object obj : arguments) {
+                if (obj instanceof Book) {
+                    Book myBook = (Book) obj;
+                    System.out.println("Информация о книге - " + myBook.getName() + ", автор - " + myBook.getAuthor() + ", год издания - " + myBook.getYearOfPublication());
+                } else if (obj instanceof String) {
+                    System.out.println("Книгу в библиотеку добавляет " + obj);
+                }
+            }
+        }
+
+        System.out.println("beforeAddLoggingAdvice: Логгирование опытки получить книгу / журнал");
+        System.out.println("----------------------------------");
+
+    }
 //
 //    @Pointcut("execution(* com.pukhaev.spring.aop.UniLibrary.*(..))")
 //    private void allMethodsFromUniLibrary(){}
@@ -54,16 +87,6 @@ public class LogginAspect {
 //    private void allGetMethods() {
 //    }
 
-    // Pointcut -- ("execution(...)") показывает где и когда должен быть применен Advice
-    // показывает когда должен выполниться сквозной код. Если не указано из какого класса метод, то метод будет вызываться для всех классов
-    // com.pukhaev.spring.aop.UniLibrary. -- таким образом логгирование будет происходить для выбранного класса
-    // execution(public void get*() -- логирование будет по всем методам с get во всех классах
-    // когда стоит * это соответствует "любой"
-    // когда в параметрах метода стоит *, то это любой ОДИН параметр, если нужно несколько любых параметров и/или без параметров ставим ".." (две точки)
-    @Before("com.pukhaev.spring.aop.aspects.MyPointcuts.allGetMethods()")
-    public void beforeGetLoggingAdvice() {
-        System.out.println("beforeGetLoggingAdvice: Логгирование опытки получить книгу / журнал");
-    }
 
 //    @Before("allGetMethods()")
 //    public void beforeGetSecurityAdvice() {
