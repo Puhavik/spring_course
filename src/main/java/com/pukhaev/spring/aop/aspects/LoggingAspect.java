@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Aspect  // Аспект класс отвечающий за сквозную функциональность
 @Order(1)
-public class LogginAspect { 
+public class LoggingAspect {
     // Pointcut -- ("execution(...)") показывает где и когда должен быть применен Advice
     // показывает когда должен выполниться сквозной код. Если не указано из какого класса метод, то метод будет вызываться для всех классов
     // com.pukhaev.spring.aop.UniLibrary. -- таким образом логгирование будет происходить для выбранного класса
