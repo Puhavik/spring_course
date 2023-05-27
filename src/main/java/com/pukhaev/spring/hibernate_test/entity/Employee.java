@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
+// Необходимо обратить внимание, чтобы импортировались пакеты javax.persistence.
 @Entity
 @Table(name="employees")
 public class Employee {
