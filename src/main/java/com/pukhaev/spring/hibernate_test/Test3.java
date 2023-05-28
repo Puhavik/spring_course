@@ -39,12 +39,14 @@ public class Test3 {
             session.beginTransaction();
 
             // получаем список всех работников. Несмотря на подчеркивания код работает.
-//            List<Employee> emps = session.createQuery("from Employee")
+//            List<Employee> emps = session
+//                    .createQuery("from Employee", Employee.class)
 //                    .getResultList();
 
             // получаем работников с определенным именем
             // Employee это название класса, name это названия поля в классе employee
-            List<Employee> emps = session.createQuery("from Employee where name = 'Vik' and salary > 400 ")
+            List<Employee> emps = session
+                    .createQuery("from Employee where name = 'Vik' and salary > 400 ", Employee.class)
                     .getResultList();
 
             for (Employee e : emps) {
