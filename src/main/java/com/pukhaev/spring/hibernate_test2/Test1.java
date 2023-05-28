@@ -1,0 +1,44 @@
+package com.pukhaev.spring.hibernate_test2;
+
+import com.pukhaev.spring.hibernate_test.entity.Employee;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+public class Test1 {
+    public static void main(String[] args) {
+
+        // Старый вариант написания
+
+//        SessionFactory factory = new Configuration()
+//                .configure("hibernate.cfg.xml")
+//                .addAnnotatedClass(Employee.class)
+//                .buildSessionFactory())
+//        try {
+//            Session session = factory.getCurrentSession();
+////            Employee emp = new Employee("Vik", "Pukhaev", "IT", 500);
+//            Employee emp = new Employee("Alex", "John", "HR", 300);
+//
+//            session.beginTransaction();
+//            session.save(emp);
+//            session.getTransaction().commit();
+//        } finally {
+//            factory.close();
+//        }
+
+        // Новый вариант написания доступный с Hibernate версии 5.0.0
+        try (SessionFactory factory = new Configuration()
+                .configure("hibernate.cfg.xml")
+                .addAnnotatedClass(Employee.class)
+                .buildSessionFactory()) {
+            Session session = factory.getCurrentSession();
+            Employee emp = new Employee("Igor", "Nosov", "IT", 600);
+
+            session.beginTransaction();
+            session.save(emp);
+            session.getTransaction().commit();
+            System.out.println("Done");
+        }
+    }
+
+}
