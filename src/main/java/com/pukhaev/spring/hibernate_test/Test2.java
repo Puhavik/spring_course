@@ -7,7 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-public class Test1 {
+public class Test2 {
     public static void main(String[] args) {
 
         // Старый вариант написания
@@ -34,12 +34,21 @@ public class Test1 {
                 .addAnnotatedClass(Employee.class)
                 .buildSessionFactory()) {
             Session session = factory.getCurrentSession();
-            Employee emp = new Employee("Igor", "Nosov", "IT", 600);
+            Employee emp = new Employee("Oleg", "Sidorov", "HR ", 700 );
 
             session.beginTransaction();
             session.save(emp);
+//            session.getTransaction().commit();
+
+            int myID = emp.getId();
+//            session = factory.getCurrentSession();
+//            session.beginTransaction();
+            Employee employee = session.get(Employee.class, myID); // получаем строку из таблицы == SELECT
             session.getTransaction().commit();
+            System.out.println(employee);
             System.out.println("Done");
+
+            // Если нужно сделать несколько действий с таблицой, напримерр ADD и потом SELECT, то можно использовать только одну транзацию
         }
     }
 

@@ -7,7 +7,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-public class Test1 {
+import java.util.List;
+
+public class Test3 {
     public static void main(String[] args) {
 
         // Старый вариант написания
@@ -34,12 +36,24 @@ public class Test1 {
                 .addAnnotatedClass(Employee.class)
                 .buildSessionFactory()) {
             Session session = factory.getCurrentSession();
-            Employee emp = new Employee("Igor", "Nosov", "IT", 600);
-
             session.beginTransaction();
-            session.save(emp);
+
+            // получаем список всех работников. Несмотря на подчеркивания код работает.
+//            List<Employee> emps = session.createQuery("from Employee")
+//                    .getResultList();
+
+            // получаем работников с определенным именем
+            // Employee это название класса, name это названия поля в классе employee
+            List<Employee> emps = session.createQuery("from Employee where name = 'Vik' and salary > 400 ")
+                    .getResultList();
+
+            for (Employee e : emps) {
+                System.out.println(e);
+            }
             session.getTransaction().commit();
             System.out.println("Done");
+
+            // Если нужно сделать несколько действий с таблицой, напримерр ADD и потом SELECT, то можно использовать только одну транзацию
         }
     }
 
