@@ -1,9 +1,6 @@
 package com.pukhaev.spring.hibernate_test.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 
 // Необходимо обратить внимание, чтобы импортировались пакеты javax.persistence.
@@ -11,6 +8,7 @@ import javax.persistence.Table;
 @Table(name="employees")
 public class Employee {
     @Id //Primary key
+    @GeneratedValue(strategy = GenerationType.IDENTITY)// стратегия генерации ключа
     @Column(name = "id")
     private int id;
     @Column(name = "name")
