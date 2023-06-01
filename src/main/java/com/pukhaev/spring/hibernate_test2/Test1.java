@@ -1,43 +1,56 @@
 package com.pukhaev.spring.hibernate_test2;
 
-import com.pukhaev.spring.hibernate_test.entity.Employee;
+
+import com.pukhaev.spring.hibernate_test2.entity.Detail;
+import com.pukhaev.spring.hibernate_test2.entity.Employee;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 public class Test1 {
     public static void main(String[] args) {
-
-        // Старый вариант написания
-
-//        SessionFactory factory = new Configuration()
-//                .configure("hibernate.cfg.xml")
-//                .addAnnotatedClass(Employee.class)
-//                .buildSessionFactory())
-//        try {
-//            Session session = factory.getCurrentSession();
-////            Employee emp = new Employee("Vik", "Pukhaev", "IT", 500);
-//            Employee emp = new Employee("Alex", "John", "HR", 300);
-//
-//            session.beginTransaction();
-//            session.save(emp);
-//            session.getTransaction().commit();
-//        } finally {
-//            factory.close();
-//        }
-
-        // Новый вариант написания доступный с Hibernate версии 5.0.0
-        try (SessionFactory factory = new Configuration()
+        SessionFactory factory = new Configuration()
                 .configure("hibernate.cfg.xml")
                 .addAnnotatedClass(Employee.class)
-                .buildSessionFactory()) {
-            Session session = factory.getCurrentSession();
-            Employee emp = new Employee("Igor", "Nosov", "IT", 600);
+                .addAnnotatedClass(Detail.class)
+                .buildSessionFactory();
+        Session session = null;
+        try {
+//            Session session = factory.getCurrentSession();
+//            Employee employee = new Employee("Vik", "Puhaev", "IT", 500);
+//            Detail detail = new Detail("Vienna", "88005553535", "krutoyemail@gmail.com");
+//            employee.setEmpDetail(detail);
+//
+//            session.beginTransaction();
+//            session.save(employee);
+//
+//            session.getTransaction().commit();
+//            System.out.println("Done");
+
+//            Session session = factory.getCurrentSession();
+//            Employee employee = new Employee("Vik", "Puhaev", "IT", 500);
+//            Detail detail = new Detail("Vienna", "88005553535", "bestemail@gmail.com");
+//            employee.setEmpDetail(detail);
+//
+//            session.beginTransaction();
+//            session.save(employee);
+//
+//            session.getTransaction().commit();
+//            System.out.println("Done");
+
+            session = factory.getCurrentSession();
 
             session.beginTransaction();
-            session.save(emp);
+            Employee emp = session.get(Employee.class, 2);
+            session.delete(emp);
             session.getTransaction().commit();
             System.out.println("Done");
+        } finally {
+            // предотвращаем connection leak
+            assert session != null;
+            session.close();
+            factory.close();
+
         }
     }
 
